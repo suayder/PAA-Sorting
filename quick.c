@@ -5,29 +5,24 @@ void SWAPq(int *a, int *b){
 }
 
 void qSort(int *vector, int begin, int end, unsigned long int *comparisionNumber, unsigned long int *swap){
-    
-    int left,right, pivot;
 
     if(begin >= end)
         return;
-
-    left = begin;
-    right = begin;
-    pivot = vector[end];
-
-    for(left;left<=end;left++){
-        (*comparisionNumber)+=1;
-        if(vector[left]<pivot){
-            if(right!=left){
-                (*swap)+=1;
-                SWAPq(&vector[left], &vector[right]);
-            }
-            right++;
-        }
+    int left,right, pivot;
+    
+    pivot = vector[begin + (end - begin)/2];
+    left = begin-1;
+    right = end+1;
+    
+    while(left<=right)
+    {
+        while(vector[++left] < pivot);
+        while(vector[--right] > pivot);
+        if(left >= right)break;
+        SWAPq(&vector[left], &vector[right]);
     }
-    SWAPq(&vector[end], &vector[right]);
 
-    qSort(vector, begin, right-1, comparisionNumber, swap);
+    qSort(vector, begin, right, comparisionNumber, swap);
     qSort(vector, right+1, end, comparisionNumber, swap);
 }
 
