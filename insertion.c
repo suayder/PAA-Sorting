@@ -1,0 +1,25 @@
+void SWAP(int *a, int *b){
+    int temp = *a;
+    *a=*b;
+    *b=temp;
+}
+
+//O(n²)
+int *insertionSort(int *vector, int n, unsigned long int *comparisionNumber, unsigned long int *swap){
+    
+        int i,j;
+        *comparisionNumber = 0;
+        for(i=1;i<n;i++){
+            int index = vector[i];
+            j=i;
+            while(j>0 && vector[j-1]>index){
+                *comparisionNumber+=1;
+                vector[j] = vector[j-1];
+                j--;
+            }
+            *swap+=1;
+            vector[j] = index;
+        }
+        return vector;
+    }
+    
