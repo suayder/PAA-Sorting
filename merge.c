@@ -3,10 +3,14 @@ int* merge(int* L, int nl, int *R, int nr, unsigned long int *comparisionNumber,
     int *vector = (int*) malloc((nl+nr)*sizeof(int));
     while(i<nl && j<nr){
         *comparisionNumber+=1;
-        if(L[i] < R[j])
+        if(L[i] < R[j]){
+            *swap+=1;
             vector[k++] = L[i++];
-        else
+        }
+        else{
+            *swap+=1;
             vector[k++] = R[j++];
+        }
     }
     while(i<nl) vector[k++] = L[i++];
     while(j<nr) vector[k++] = R[j++];

@@ -70,8 +70,10 @@ void getData(char listname[], char resultlistname[], char swapR[], char compResu
     while(fscanf(lData, "%s %d\n", str, &size)!=EOF){
         fData = fopen(str, "r");
 
-        if(fData==NULL)
+        if(fData==NULL){
+            printf("Error while trying to open file");
             exit(1);
+        }
 
         aux = (int*) malloc(size*sizeof(int));
         vector = readFile(vector, size, str);
@@ -117,13 +119,13 @@ void getData(char listname[], char resultlistname[], char swapR[], char compResu
             aux[i] = vector[i];
         }
         clock_t qstart = clock();
-        aux = quickSort(aux, size, &compNumber[4], &amountSwap[4]);
+        quickSort(aux, size, &compNumber[4], &amountSwap[4]);
         clock_t qend = clock();
         clock_t totalQuick = qend - qstart;
         
-        fprintf(results, "%d %ld %ld %ld %ld\n", size, totalBubble, totalinsertion, totalSelection, totalMerge, totalQuick);
-        fprintf(swapResult, "%d %lu %lu %lu %lu\n", size, amountSwap[0], amountSwap[1], amountSwap[2], amountSwap[3], amountSwap[4]);
-        fprintf(comparationResult, "%d %lu %lu %lu %lu\n", size, compNumber[0], compNumber[1], compNumber[2], compNumber[3], compNumber[4]);
+        fprintf(results, "%d %ld %ld %ld %ld %ld\n", size, totalBubble, totalinsertion, totalSelection, totalMerge, totalQuick);
+        fprintf(swapResult, "%d %lu %lu %lu %lu %lu\n", size, amountSwap[0], amountSwap[1], amountSwap[2], amountSwap[3], amountSwap[4]);
+        fprintf(comparationResult, "%d %lu %lu %lu %lu %lu\n", size, compNumber[0], compNumber[1], compNumber[2], compNumber[3], compNumber[4]);
 
         fclose(fData);
     }
