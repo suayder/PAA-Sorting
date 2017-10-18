@@ -63,9 +63,9 @@ void getData(char listname[], char resultlistname[], char swapR[], char compResu
     int size, *vector, *aux, i;
     unsigned long int amountSwap[5] = {0,0,0,0,0}, compNumber[5] = {0,0,0,0,0};
 
-    fprintf(results, "# size | bubble | Insertion | Selection | Merge | Quick\n");
-    fprintf(swapResult, "# size | bubble | Insertion | Selection | Merge | Quick\n");
-    fprintf(comparationResult, "# size | bubble | Insertion | Selection | Merge | Quick\n");
+    fprintf(results, "# size | bubble | Insertion | Selection | Merge | Quick");
+    fprintf(swapResult, "# size | bubble | Insertion | Selection | Merge | Quick");
+    fprintf(comparationResult, "# size | bubble | Insertion | Selection | Merge | Quick");
 
     while(fscanf(lData, "%s %d\n", str, &size)!=EOF){
         fData = fopen(str, "r");
@@ -96,7 +96,7 @@ void getData(char listname[], char resultlistname[], char swapR[], char compResu
         clock_t iend = clock();
         clock_t totalinsertion = iend - istart;
 
-        //Selection Sort *
+        //Selection Sort
         for(i=0; i<size;i++){
             aux[i] = vector[i];
         }
@@ -114,7 +114,7 @@ void getData(char listname[], char resultlistname[], char swapR[], char compResu
         clock_t mend = clock();
         clock_t totalMerge = mend - mstart;
 
-        //Quick Sort *
+        //Quick Sort
         for(i=0; i<size;i++){
             aux[i] = vector[i];
         }
@@ -123,9 +123,9 @@ void getData(char listname[], char resultlistname[], char swapR[], char compResu
         clock_t qend = clock();
         clock_t totalQuick = qend - qstart;
         
-        fprintf(results, "%d %ld %ld %ld %ld %ld\n", size, totalBubble, totalinsertion, totalSelection, totalMerge, totalQuick);
-        fprintf(swapResult, "%d %lu %lu %lu %lu %lu\n", size, amountSwap[0], amountSwap[1], amountSwap[2], amountSwap[3], amountSwap[4]);
-        fprintf(comparationResult, "%d %lu %lu %lu %lu %lu\n", size, compNumber[0], compNumber[1], compNumber[2], compNumber[3], compNumber[4]);
+        fprintf(results, "\n%d %ld %ld %ld %ld %ld", size, totalBubble, totalinsertion, totalSelection, totalMerge, totalQuick);
+        fprintf(swapResult, "\n%d %lu %lu %lu %lu %lu", size, amountSwap[0], amountSwap[1], amountSwap[2], amountSwap[3], amountSwap[4]);
+        fprintf(comparationResult, "\n%d %lu %lu %lu %lu %lu", size, compNumber[0], compNumber[1], compNumber[2], compNumber[3], compNumber[4]);
 
         fclose(fData);
         free(aux);
@@ -199,7 +199,7 @@ void runmethod(char listname[], char resultlistname[], char swapR[], char compRe
 
     fprintf(results, "# size | time\n");
     fprintf(swapResult, "# size | swap\n");
-    fprintf(comparationResult, "# size | comparacoes\n");
+    fprintf(comparationResult, "# size | comparacoes");
 
     while(fscanf(lData, "%s %d\n", str, &size)!=EOF){
         fData = fopen(str, "r");
@@ -234,9 +234,9 @@ void runmethod(char listname[], char resultlistname[], char swapR[], char compRe
         }
         
 
-        fprintf(results, "%d %ld\n", size, timevalue);
-        fprintf(swapResult, "%d %lu\n", size, amountSwap);
-        fprintf(comparationResult, "%d %lu\n", size, compNumber);
+        fprintf(results, "\n%d %ld", size, timevalue);
+        fprintf(swapResult, "\n%d %lu", size, amountSwap);
+        fprintf(comparationResult, "\n%d %lu", size, compNumber);
 
         fclose(fData);
         free(aux);

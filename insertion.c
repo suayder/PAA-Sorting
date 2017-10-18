@@ -11,13 +11,17 @@ int *insertionSort(int *vector, int n, unsigned long int *comparisionNumber, uns
         for(i=1;i<n;i++){
             int index = vector[i];
             j=i;
+            *comparisionNumber+=1;
             while(j>0 && vector[j-1]>index){
                 *comparisionNumber+=1;
+                *swap+=1;
                 vector[j] = vector[j-1];
                 j--;
             }
-            *swap+=1;
-            vector[j] = index;
+            if(i!=j){
+                *swap+=1;
+                vector[j] = index;
+            }
         }
         return vector;
     }
