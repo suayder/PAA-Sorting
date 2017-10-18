@@ -17,8 +17,9 @@ void qSort(int *vector, int begin, int end, unsigned long int *comparisionNumber
     
     while(left<=right)
     {
-        while(vector[++left] < pivot) *comparisionNumber+=1;
-        while(vector[--right] > pivot) *comparisionNumber+=1;
+        while(vector[++left] < pivot);
+        while(vector[--right] > pivot);
+        *comparisionNumber+=1
         if(left >= right)break;
         SWAPq(&vector[left], &vector[right]);
         *swap+=1;

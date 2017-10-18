@@ -8,7 +8,7 @@ void SWAPs(int *a, int *b){
 int *selectionSort(int *vector, int n, unsigned long int *comparisionNumber, unsigned long int *swap){
     
     int i,j, smallest;
-    *comparisionNumber = 0;
+
     for(i=0;i<n-1;i++){
         smallest = i;
         for(j=i+1;j<n;j++){

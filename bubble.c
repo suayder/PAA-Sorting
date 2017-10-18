@@ -6,7 +6,6 @@ void SWAPb(int *a, int *b){
 //O(n²)
 int *bubbleSort(int *vector, int n, unsigned long int *comparisionNumber, unsigned long int *swap){
     int i, j;
-    *comparisionNumber = 0;
     for(i = 1;i<n;i++){
         for(j = 0;j<n-i;j++){
             *comparisionNumber+=1;
