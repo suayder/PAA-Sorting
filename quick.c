@@ -14,9 +14,6 @@ void qSort(int *vector, int begin, int end, unsigned long int *comparisionNumber
     pivot = vector[begin + (end - begin)/2];
     left = begin-1;
     right = end+1;
-
-    *comparisionNumber = 0;
-    *swap = 0;
     
     while(left<=right)
     {

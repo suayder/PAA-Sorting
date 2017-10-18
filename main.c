@@ -36,7 +36,7 @@ int *generateVector(const int size){
     return vector;
 }
 
-int *bubbleSort1(int *vector, int n){
+int *revertVector(int *vector, int n){
     int i, j;
     for(i = 1;i<n;i++){
         for(j = 0;j<n-i;j++){
@@ -128,6 +128,7 @@ void getData(char listname[], char resultlistname[], char swapR[], char compResu
         fprintf(comparationResult, "%d %lu %lu %lu %lu %lu\n", size, compNumber[0], compNumber[1], compNumber[2], compNumber[3], compNumber[4]);
 
         fclose(fData);
+        free(aux);
     }
     fclose(lData);
     fclose(results);
@@ -135,20 +136,135 @@ void getData(char listname[], char resultlistname[], char swapR[], char compResu
     fclose(comparationResult);
 }
 
+long int runBubble(int *vector, int size, unsigned long int* compNumber, unsigned long int* amountSwap ){
+    
+    clock_t start = clock();
+    vector = bubbleSort(vector, size, compNumber, amountSwap);
+    clock_t end = clock();
+    clock_t total = end - start;
+    return total;
+}
+
+long int runInsertion(int *vector, int size, unsigned long int* compNumber, unsigned long int* amountSwap ){
+    //Insertion Sort
+    clock_t start = clock();
+    vector = insertionSort(vector, size, compNumber, amountSwap);
+    clock_t end = clock();
+    clock_t total = end - start;
+    return total;
+}
+
+long int runSelection(int *vector, int size, unsigned long int* compNumber, unsigned long int* amountSwap ){
+    
+    clock_t start = clock();
+    vector = selectionSort(vector, size, compNumber, amountSwap);
+    clock_t end = clock();
+    clock_t total = end - start;
+    return total;
+}
+
+long int runMerge(int *vector, int size, unsigned long int* compNumber, unsigned long int* amountSwap ){
+    
+    clock_t start = clock();
+    vector = mergeSort(vector, size, compNumber, amountSwap);
+    clock_t end = clock();
+    clock_t total = end - start;
+    return total;
+}
+
+long int runQuick(int *vector, int size, unsigned long int* compNumber, unsigned long int* amountSwap ){
+    
+    clock_t start = clock();
+    quickSort(vector, size, compNumber, amountSwap);
+    clock_t end = clock();
+    clock_t total = end - start;
+    return total;
+}
+
+void runmethod(char listname[], char resultlistname[], char swapR[], char compResult[], int op){
+
+    FILE *lData, *fData; // List of data, file with data
+    lData = fopen(listname, "r");
+    FILE *results = fopen(resultlistname, "w");
+    FILE *swapResult = fopen(swapR, "w");
+    FILE *comparationResult = fopen(compResult, "w");
+
+    if(lData == NULL || results == NULL || swapResult == NULL || comparationResult == NULL)
+        exit(1);
+
+    char str[128];
+    int size, *vector, *aux, i;
+    unsigned long int amountSwap = 0, compNumber = 0;
+    long int timevalue;
+
+    fprintf(results, "# size | time\n");
+    fprintf(swapResult, "# size | swap\n");
+    fprintf(comparationResult, "# size | comparacoes\n");
+
+    while(fscanf(lData, "%s %d\n", str, &size)!=EOF){
+        fData = fopen(str, "r");
+
+        if(fData==NULL){
+            printf("Error while trying to open file");
+            exit(1);
+        }
+
+        aux = (int*) malloc(size*sizeof(int));
+        vector = readFile(vector, size, str);
+
+        //Sorting method
+        switch(op){
+            case 1:
+                timevalue = runBubble(vector, size, &compNumber, &amountSwap);
+                break;
+            case 2:
+                timevalue = runInsertion(vector, size, &compNumber, &amountSwap);
+                break;
+            case 3:
+                timevalue = runSelection(vector, size, &compNumber, &amountSwap);
+                break;
+            case 4:
+                timevalue = runMerge(vector, size, &compNumber, &amountSwap);
+                break;
+            case 5:
+                timevalue = runQuick(vector, size, &compNumber, &amountSwap);
+                break;
+            default:
+                exit(1);
+        }
+        
+
+        fprintf(results, "%d %ld\n", size, timevalue);
+        fprintf(swapResult, "%d %lu\n", size, amountSwap);
+        fprintf(comparationResult, "%d %lu\n", size, compNumber);
+
+        fclose(fData);
+        free(aux);
+    }
+    fclose(lData);
+    fclose(results);
+    fclose(swapResult);
+    fclose(comparationResult);
+
+}
+
 int main(){
 
-    //getData("data/ListOrdered.txt", "data/results/ordered_byTime.dat", "data/results/ordered_bySwapNumber.dat", "data/results/ordered_byNumberComparations.dat");
-    //getData("data/ListReverse.txt", "data/results/reverse_byTime.dat","data/results/reverse_bySwapNumber.dat", "data/results/reverse_byNumberComparations.dat");
-    //getData("data/ListUnordered.txt", "data/results/unordered_byTime.dat", "data/results/unordered_bySwapNumber.dat", "/data/results/unordered_byNumberComparation.dat");
+    int op;
+    puts("digite:\n\t1-Bubble\n\t2-Insertion\n\t3-Selection\n\t4-Merge\n\t5-Quick\n\t6-Todos de uma vez (Demora bastante)\n\t Outro valor para sair");
+    scanf("%d", &op);
+    if(op<0 && op>7);
+    else if(op==6){
+        getData("data/ListOrdered.txt", "data/results/ordered_byTime.dat", "data/results/ordered_bySwapNumber.dat", "data/results/ordered_byNumberComparation.dat");
+        getData("data/ListReverse.txt", "data/results/reverse_byTime.dat","data/results/reverse_bySwapNumber.dat", "data/results/reverse_byNumberComparation.dat");
+        getData("data/ListUnordered.txt", "data/results/unordered_byTime.dat", "data/results/unordered_bySwapNumber.dat", "data/results/unordered_byNumberComparation.dat");
+    }
+    else{
+        runmethod("data/ListOrdered.txt", "data/results/O_individualsorting_byTime.dat", "data/results/O_individualsorting_bySwapNumber.dat", "data/results/O_individualsorting_byNumberComparation.dat", op);
+        runmethod("data/ListReverse.txt", "data/results/R_individualsorting_byTime.dat", "data/results/R_individualsorting_bySwapNumber.dat", "data/results/R_individualsorting_byNumberComparation.dat", op);
+        runmethod("data/ListUnordered.txt", "data/results/U_individualsorting_byTime.dat", "data/results/U_individualsorting_bySwapNumber.dat", "data/results/U_individualsorting_byNumberComparation.dat", op);
+    }
     
-    /*unsigned long int a=0 , b=0; 
-    int *vector = readFile(vector, 1000000, "data/1000000_reverse.txt");
-    quickSort(vector, 1000000, &a, &b);
-    print(vector,1000000);
-    printf("\n%lu %lu\n", a,b);
-    int *vector = generateVector(1000);
-    printFile(vector, 1000, "/home/suayder/Desktop/array.txt");
-    quickSort(vector, 1000, &a, &b);
-    print(vector,1000);*/
+
     return 0;
 }
